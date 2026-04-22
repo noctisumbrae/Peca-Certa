@@ -1,6 +1,5 @@
 class FiltroCompatibilidade {
     constructor() {
-        // Estado global da máquina atual do usuário
         this.pcAtual = {
             cpu: null,
             placaMae: null,
@@ -13,19 +12,39 @@ class FiltroCompatibilidade {
         };
     }
 
-    // Atualiza o estado da máquina quando o usuário escolhe ou remove uma peça
     setarPeca(categoria, peca) {
-        // Normaliza o nome da categoria para a chave do objeto
         const chave = categoria === 'placa-mae' ? 'placaMae' : 
                       categoria === 'memoria-ram' ? 'ram' : categoria;
         
         if (this.pcAtual[chave] !== undefined) {
             this.pcAtual[chave] = peca;
+            this._reavaliarCompatibilidadeGlobal();
         }
+    }
+
+    _removerPecaIncompativel(chave) {
+        this.pcAtual[chave] = null;
+        if (typeof document !== 'undefined') {
+            document.dispatchEvent(new CustomEvent('pecaRemovidaPorIncompatibilidade', { 
+                detail: { categoriaAetada: chave } 
+            }));
+        }
+    }
+
+    _reavaliarCompatibilidadeGlobal() {
+        if (this.pcAtual.placaMae && !this._validarPlacaMae(this.pcAtual.placaMae)) this._removerPecaIncompativel('placaMae');
+        if (this.pcAtual.cpu && !this._validarCpu(this.pcAtual.cpu)) this._removerPecaIncompativel('cpu');
+        if (this.pcAtual.ram && !this._validarRam(this.pcAtual.ram)) this._removerPecaIncompativel('ram');
+        if (this.pcAtual.cooler && !this._validarCooler(this.pcAtual.cooler)) this._removerPecaIncompativel('cooler');
+        if (this.pcAtual.gpu && !this._validarGpu(this.pcAtual.gpu)) this._removerPecaIncompativel('gpu');
+        if (this.pcAtual.gabinete && !this._validarGabinete(this.pcAtual.gabinete)) this._removerPecaIncompativel('gabinete');
+        if (this.pcAtual.fonte && !this._validarFonte(this.pcAtual.fonte)) this._removerPecaIncompativel('fonte');
     }
 
     filtrarCatalogo(categoria, listaDePecasDoBanco) {
         return listaDePecasDoBanco.filter(peca => {
+            if (peca.categoria !== categoria) return false;
+
             switch (categoria) {
                 case 'placa-mae': return this._validarPlacaMae(peca);
                 case 'cpu':       return this._validarCpu(peca);
@@ -42,16 +61,19 @@ class FiltroCompatibilidade {
     _validarPlacaMae(placa) {
         const esp = placa.especificacoes;
         
-        // Regra 1: Bater socket com CPU já escolhida
-        if (this.pcAtual.cpu && esp?.socket !== this.pcAtual.cpu.especificacoes?.socket) return false;
+        if (this.pcAtual.cpu) {
+            const socketCpu = this.pcAtual.cpu.especificacoes?.socket;
+            if (!socketCpu || esp?.socket !== socketCpu) return false;
+        }
         
-        // Regra 2: Bater tipo de memória (DDR4/DDR5) com RAM já escolhida
-        if (this.pcAtual.ram && esp?.memory?.ram_type !== this.pcAtual.ram.especificacoes?.ram_type) return false;
+        if (this.pcAtual.ram) {
+            const ramType = this.pcAtual.ram.especificacoes?.ram_type;
+            if (!ramType || esp?.memory?.ram_type !== ramType) return false;
+        }
         
-        // Regra 3: Caber no gabinete já escolhido
         if (this.pcAtual.gabinete) {
             const formFactorsGabinete = this.pcAtual.gabinete.especificacoes?.supported_motherboard_form_factors || [];
-            if (!formFactorsGabinete.includes(esp?.form_factor)) return false;
+            if (!esp?.form_factor || !formFactorsGabinete.includes(esp.form_factor)) return false;
         }
         
         return true;
@@ -60,22 +82,23 @@ class FiltroCompatibilidade {
     _validarCpu(cpu) {
         const esp = cpu.especificacoes;
         
-        // Regra 1: Bater socket com Placa Mãe
-        if (this.pcAtual.placaMae && esp?.socket !== this.pcAtual.placaMae.especificacoes?.socket) return false;
+        if (this.pcAtual.placaMae) {
+            const socketPlaca = this.pcAtual.placaMae.especificacoes?.socket;
+            if (!socketPlaca || esp?.socket !== socketPlaca) return false;
+        }
         
-        // Regra 2: Ser suportado pelo Cooler já escolhido
         if (this.pcAtual.cooler) {
             const socketsSuportados = this.pcAtual.cooler.especificacoes?.cpu_sockets || [];
-            if (socketsSuportados.length > 0 && !socketsSuportados.includes(esp?.socket)) return false;
+            if (socketsSuportados.length === 0 || !esp?.socket || !socketsSuportados.includes(esp.socket)) return false;
         }
         
         return true;
     }
 
     _validarRam(ram) {
-        // Regra 1: Bater tipo com Placa Mãe (DDR4/DDR5)
-        if (this.pcAtual.placaMae && ram.especificacoes?.ram_type !== this.pcAtual.placaMae.especificacoes?.memory?.ram_type) {
-            return false;
+        if (this.pcAtual.placaMae) {
+            const ramTypePlaca = this.pcAtual.placaMae.especificacoes?.memory?.ram_type;
+            if (!ramTypePlaca || ram.especificacoes?.ram_type !== ramTypePlaca) return false;
         }
         return true;
     }
@@ -83,13 +106,16 @@ class FiltroCompatibilidade {
     _validarCooler(cooler) {
         const socketsSuportados = cooler.especificacoes?.cpu_sockets || [];
         
-        // Regra 1: Suportar a CPU escolhida
-        if (this.pcAtual.cpu && !socketsSuportados.includes(this.pcAtual.cpu.especificacoes?.socket)) return false;
-        
-        // Regra 2: Suportar a Placa Mãe (se escolhida antes da CPU)
-        if (this.pcAtual.placaMae && !socketsSuportados.includes(this.pcAtual.placaMae.especificacoes?.socket)) return false;
+        if (this.pcAtual.cpu) {
+            const socketCpu = this.pcAtual.cpu.especificacoes?.socket;
+            if (!socketCpu || !socketsSuportados.includes(socketCpu)) return false;
+        }
 
-        // Regra 3: Caber no gabinete (Altura)
+        if (this.pcAtual.placaMae) {
+            const socketPlaca = this.pcAtual.placaMae.especificacoes?.socket;
+            if (!socketPlaca || !socketsSuportados.includes(socketPlaca)) return false;
+        }
+
         if (this.pcAtual.gabinete && cooler.especificacoes?.height) {
             const maxAlturaGabinete = this.pcAtual.gabinete.especificacoes?.max_cpu_cooler_height;
             if (maxAlturaGabinete && cooler.especificacoes.height > maxAlturaGabinete) return false;
@@ -99,7 +125,6 @@ class FiltroCompatibilidade {
     }
 
     _validarGpu(gpu) {
-        // Regra 1: Caber fisicamente no gabinete
         if (this.pcAtual.gabinete && gpu.especificacoes?.length) {
             const maxComprimentoGabinete = this.pcAtual.gabinete.especificacoes?.max_video_card_length;
             if (maxComprimentoGabinete && gpu.especificacoes.length > maxComprimentoGabinete) return false;
@@ -110,20 +135,17 @@ class FiltroCompatibilidade {
     _validarGabinete(gabinete) {
         const esp = gabinete.especificacoes;
 
-        // Regra 1: Comportar a Placa Mãe escolhida
         if (this.pcAtual.placaMae) {
             const formFactorPlaca = this.pcAtual.placaMae.especificacoes?.form_factor;
             const suportados = esp?.supported_motherboard_form_factors || [];
-            if (formFactorPlaca && !suportados.includes(formFactorPlaca)) return false;
+            if (!formFactorPlaca || !suportados.includes(formFactorPlaca)) return false;
         }
 
-        // Regra 2: Comportar o tamanho da GPU
         if (this.pcAtual.gpu && this.pcAtual.gpu.especificacoes?.length) {
             const tamanhoGPU = this.pcAtual.gpu.especificacoes.length;
             if (esp?.max_video_card_length && tamanhoGPU > esp.max_video_card_length) return false;
         }
 
-        // Regra 3: Comportar a altura do Air Cooler
         if (this.pcAtual.cooler && this.pcAtual.cooler.especificacoes?.height) {
             const alturaCooler = this.pcAtual.cooler.especificacoes.height;
             if (esp?.max_cpu_cooler_height && alturaCooler > esp.max_cpu_cooler_height) return false;
@@ -133,17 +155,16 @@ class FiltroCompatibilidade {
     }
 
     _validarFonte(fonte) {
-        // Regra 1: Cálculo Elétrico Seguro (TDP + Folga)
-        let totalW = 60; // Consumo base placa-mãe/fans
+        let totalW = 60; 
         
         if (this.pcAtual.cpu) {
-            totalW += (this.pcAtual.cpu.especificacoes?.specifications?.tdp || 65);
+            totalW += (this.pcAtual.cpu.especificacoes?.tdp || 65);
         }
         if (this.pcAtual.gpu) {
-            totalW += (this.pcAtual.gpu.especificacoes?.tdp || 0);
+            totalW += (this.pcAtual.gpu.especificacoes?.tdp || 350);
         }
 
-        const margemSeguranca = totalW * 1.20; // 20% de folga mínima
+        const margemSeguranca = totalW * 1.20; 
         const potenciaFonte = fonte.especificacoes?.wattage || 0;
         
         return potenciaFonte >= margemSeguranca;
