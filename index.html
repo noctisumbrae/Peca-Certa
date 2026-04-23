@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peça Certa - Monte seu PC Gamer</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/layout.css">
+    <script src="js/ui.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="page-index">
+
+    <div class="logo-container">
+        <img src="logo/logo_sem_fundo.webp" alt="Peça Certa Logo" 
+             onerror="this.src='logo/logo_sem_fundo_original.png'; this.onerror=function(){this.src='https://placehold.co/300x100/ffffff/333333?text=PE%C3%87A+CERTA&font=Montserrat'};">
+    </div>
+
+    <div class="split-wrapper">
+        <a href="pages/montagem.html" class="side side-left group">
+            <div class="side-content flex flex-col items-center">
+                <i data-lucide="cpu" class="w-20 h-20 mb-6 text-[#22C345] group-hover:text-[#1da63a] transition-colors duration-300 drop-shadow-sm"></i>
+                
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-gray-800">
+                    Montagem<br><span class="text-[#22C345] group-hover:text-[#1da63a] transition-colors">Manual</span>
+                </h2>
+                
+                <p class="text-lg md:text-xl text-gray-500 mb-8 px-4 font-medium">
+                    Escolha as peças do seu PC passo a passo com nosso filtro de compatibilidade em tempo real.
+                </p>
+                
+                <button class="btn-custom px-8 py-4 rounded-full font-bold text-lg uppercase tracking-wider flex items-center gap-2">
+                    Escolher Peças
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </a>
+
+        <a href="pages/autobuild.html" class="side side-right group">
+            <div class="side-content flex flex-col items-center">
+                <i data-lucide="gamepad-2" class="w-20 h-20 mb-6 text-[#22C345] group-hover:text-[#1da63a] transition-colors duration-300 drop-shadow-sm"></i>
+                
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-gray-800">
+                    Auto<br><span class="text-[#22C345] group-hover:text-[#1da63a] transition-colors">Build Gamer</span>
+                </h2>
+                
+                <p class="text-lg md:text-xl text-gray-500 mb-8 px-4 font-medium">
+                    Diga o jogo, resolução e FPS que deseja. Nossa engine monta o PC ideal para você!
+                </p>
+                
+                <button class="btn-custom px-8 py-4 rounded-full font-bold text-lg uppercase tracking-wider flex items-center gap-2">
+                    Montar Mágica
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </a>
+    </div>
+
+</body>
+</html>
