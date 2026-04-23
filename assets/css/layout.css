@@ -121,3 +121,30 @@
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.08));
     transition: height 0.4s ease, top 0.4s ease;
 }
+
+/*AUTOBUILD.HTML*/
+
+.game-card {
+    flex: 0 0 180px; /* Largura fixa para manter o formato vertical */
+    text-align: center;
+    cursor: pointer;
+}
+
+.game-card img {
+    width: 100%;
+    aspect-ratio: 2 / 3; /* Proporção vertical de pôster */
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.game-card img:hover {
+    transform: scale(1.05);
+}
+
+.game-card p {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
