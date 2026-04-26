@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Montagem Customizada - Peça Certa</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/layout.css">
+
+    <script src="../js/ui.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="page-montagem text-gray-800">
+
+    <nav class="bg-[#1f2937] text-white p-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-2">
+                <img src="../logo/logo_sem_fundo.webp" alt="Logo" class="h-20 md:h-24 drop-shadow-lg" onerror="this.src='../logo/logo_sem_fundo_original.png'">
+            </a>
+            </div>
+    </nav>
+
+    <div class="bg-[#4b5563] text-white py-6 shadow-inner">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 id="titulo-pagina" class="text-3xl font-bold drop-shadow-sm">Carregando...</h1>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 py-8">
+
+        <div id="view-overview" class="hidden">
+            <div class="bg-[#22C345] text-white p-3 rounded-t-lg flex justify-between items-center font-bold shadow-sm text-sm sm:text-base">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5 flex-shrink-0"></i>
+                    <span class="truncate">Compatibilidade Verificada</span>
+                </div>
+                <span id="est-wattage" class="flex items-center gap-1 sm:gap-2 bg-[#1da63a] px-2 sm:px-3 py-1 rounded-md text-xs sm:text-sm whitespace-nowrap">
+                    <i data-lucide="zap" class="w-4 h-4 text-yellow-300"></i> Consumo Est.: --W
+                </span>
+            </div>
+
+            <div class="flex flex-col lg:flex-row bg-white rounded-b-lg shadow-sm border border-gray-200 overflow-hidden">
+                <div class="flex-1 overflow-hidden md:overflow-visible">
+                    <table class="w-full text-left pc-table">
+                        <thead>
+                            <tr class="bg-gray-50 text-xs uppercase tracking-wider">
+                                <th class="w-1/6">Componente</th>
+                                <th class="w-1/2">Seleção</th>
+                                <th class="w-1/6 text-right">Preço</th>
+                                <th class="w-1/12 text-center">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="overview-tbody"></tbody>
+
+                        <tfoot>
+                            <tr class="bg-gray-50 border-t-2 border-gray-200">
+                                <td colspan="2" class="text-right font-bold text-gray-500 uppercase tracking-wide text-sm pr-4">Preço Total da Máquina:</td>
+                                <td id="tabela-total-preco" class="text-right font-bold text-[#22C345] text-xl whitespace-nowrap">R$ 0,00</td>
+                                <td class="hidden md:table-cell"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div id="overview-fps-container" class="hidden w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 bg-gray-50 p-6 flex-shrink-0">
+                </div>
+            </div>
+        </div>
+
+        <div id="view-selection" class="hidden flex flex-col md:flex-row gap-6">
+            <aside class="w-full md:w-1/4">
+                <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-4 sticky top-4">
+                    <h3 class="font-bold text-lg border-b pb-2 mb-4 flex items-center gap-2 text-gray-800">
+                        <i data-lucide="box" class="w-5 h-5 text-[#22C345]"></i> Resumo Atual
+                    </h3>
+                    <div class="flex justify-between text-sm mb-3 text-gray-600 bg-gray-50 p-2 rounded">
+                        <span>Peças escolhidas:</span>
+                        <span id="sidebar-count" class="font-bold text-gray-900">0</span>
+                    </div>
+                    <div class="flex justify-between text-sm mb-2 text-gray-600 bg-gray-50 p-2 rounded">
+                        <span>Total Parcial:</span>
+                        <span id="sidebar-total" class="font-bold text-[#22C345] text-base">R$ 0,00</span>
+                    </div>
+
+                    <button onclick="window.voltarParaOverview()" class="w-full bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-800 font-semibold py-2 px-4 rounded transition-colors text-sm flex justify-center items-center gap-2 mt-6">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar para a Build
+                    </button>
+                </div>
+            </aside>
+
+            <main class="w-full md:w-3/4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 bg-white p-3 rounded-lg border border-gray-200 shadow-sm">
+                    <span id="qtd-resultados" class="font-semibold text-[#22C345] bg-[#22C345]/10 px-3 py-1 rounded-full text-sm w-full sm:w-auto text-center">Buscando peças...</span>
+                    <div class="relative w-full sm:w-64">
+                        <i data-lucide="search" class="absolute left-3 top-2.5 w-4 h-4 text-gray-400"></i>
+                        <input type="text" id="input-pesquisa" placeholder="Buscar modelo..." class="w-full border border-gray-300 rounded-md pl-9 pr-3 py-2 text-sm focus:outline-none focus:border-[#22C345] focus:ring-1 focus:ring-[#22C345]">
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden md:overflow-visible">
+                    <table class="w-full text-left pc-table text-sm">
+                        <thead>
+                            <tr class="bg-gray-50 text-gray-500 uppercase text-xs">
+                                <th class="w-20 text-center">Info</th>
+                                <th>Nome do Produto</th>
+                                <th class="text-right">Preço</th>
+                                <th class="text-center w-24">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="selection-tbody"></tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script type="module" src="../js/main.js"></script>
+</body>
+</html>
