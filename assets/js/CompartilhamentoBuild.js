@@ -1,48 +1,73 @@
-class CompartilhamentoBuild {
-    constructor(gerenciadorCompatibilidade, supabase) {
-        this.gerenciador = gerenciadorCompatibilidade;
+export default class CompartilhamentoBuild {
+    constructor(filtro, supabase) {
+        this.filtro = filtro;
         this.supabase = supabase;
     }
 
-    gerarLink() {
-        const urlParams = new URLSearchParams();
-        const pc = this.gerenciador.pcAtual;
+    async carregarBuildDaUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        const categoriasParaCarregar = [
+            { urlKey: 'cpu', internalKey: 'cpu' },
+            { urlKey: 'gpu', internalKey: 'gpu' },
+            { urlKey: 'placa-mae', internalKey: 'placaMae' },
+            { urlKey: 'memoria-ram', internalKey: 'ram' },
+            { urlKey: 'cooler', internalKey: 'cooler' },
+            { urlKey: 'armazenamento', internalKey: 'armazenamento' },
+            { urlKey: 'gabinete', internalKey: 'gabinete' },
+            { urlKey: 'fonte', internalKey: 'fonte' }
+        ];
 
-        for (const [categoria, peca] of Object.entries(pc)) {
-            if (peca && peca.id) {
-                urlParams.set(categoria, peca.id);
+        const promises = categoriasParaCarregar.map(async (cat) => {
+            const id = urlParams.get(cat.urlKey);
+            if (id && id !== 'null' && id !== 'undefined') {
+                const { data, error } = await this.supabase
+                    .from('componentes')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+                
+                if (data && !error) {
+                    return { chave: cat.internalKey, peca: data };
+                }
             }
+            return null;
+        });
+
+        const resultados = await Promise.all(promises);
+        
+        resultados.forEach(res => {
+            if (res) {
+                this.filtro.pcAtual[res.chave] = res.peca;
+            }
+        });
+
+        if (typeof this.filtro._reavaliarCompatibilidadeGlobal === 'function') {
+            this.filtro._reavaliarCompatibilidadeGlobal();
         }
 
-        const baseUrl = window.location.origin + window.location.pathname;
-        const linkFinal = `${baseUrl}?${urlParams.toString()}`;
-        
-        return linkFinal;
+        document.dispatchEvent(new CustomEvent('buildCompartilhadaCarregada', {
+            detail: { pcCarregado: this.filtro.pcAtual }
+        }));
     }
 
-    async carregarBuildDaUrl() {
+    gerarLink() {
+        const pc = this.filtro.pcAtual;
         const params = new URLSearchParams(window.location.search);
-        const idsParaBuscar = [];
+        
+        const resolucaoAtual = params.get('res');
+        params.forEach((value, key) => params.delete(key));
+        if (resolucaoAtual) params.set('res', resolucaoAtual);
+        
+        if (pc.cpu) params.set('cpu', pc.cpu.id);
+        if (pc.gpu) params.set('gpu', pc.gpu.id);
+        if (pc.placaMae) params.set('placa-mae', pc.placaMae.id);
+        if (pc.ram) params.set('memoria-ram', pc.ram.id);
+        if (pc.cooler) params.set('cooler', pc.cooler.id);
+        if (pc.armazenamento) params.set('armazenamento', pc.armazenamento.id);
+        if (pc.gabinete) params.set('gabinete', pc.gabinete.id);
+        if (pc.fonte) params.set('fonte', pc.fonte.id);
 
-        for (const [categoria, id] of params.entries()) {
-            idsParaBuscar.push(id);
-        }
-
-        if (idsParaBuscar.length === 0) return;
-
-        const { data: pecas, error } = await this.supabase
-            .from('componentes')
-            .select('*')
-            .in('id', idsParaBuscar);
-
-        if (error) {
-            return;
-        }
-
-        pecas.forEach(peca => {
-            this.gerenciador.setarPeca(peca.categoria, peca);
-        });
+        return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
     }
 }
-
-export default CompartilhamentoBuild;
