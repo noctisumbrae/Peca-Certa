@@ -1,49 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peca Certa - Autobuild</title>
-
+    <title>Auto Build Gamer - Peça Certa</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/layout.css">
-    <script src="js/ui.js"></script>
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 
+                        primary: '#22C345',
+                        primaryHover: '#1da63a'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-    <header>
-        <img src="assets/img/logo_sem_fundo.webp" alt="">
-    </header>
+<body class="page-autobuild flex flex-col min-h-screen">
 
-    <ul class="game-list">
-        <li class="game-card">
-            <img src="assets/img/valorant_capa.webp" alt="Valorant">
-            <p>Valorant</p>
-        </li>
-        <li class="game-card">
-            <img src="/assets/img/valorant_capa.webp" alt="CS2">
-            <p>CS2</p>
-        </li>
-        <li class="game-card">
-            <img src="assets/img/fortnite_capa.webp" alt="Fortnite">
-            <p>Fortnite</p>
-        </li>
-        <li class="game-card">
-            <img src="assets/img/cyberpunk_capa.webp" alt="Cyberpunk 2077">
-            <p>Cyberpunk 2077</p>
-        </li>
-        <li class="game-card">
-            <img src="assets/img/cyberpunk_capa.webp" alt="RDR2">
-            <p>Red Dead Redemption 2</p>
-        </li>
-        <li class="game-card">
-            <img src="assets/img/wukong.webp" alt="Black Myth Wukong">
-            <p>Black Myth Wukong</p>
-        </li>
-    </ul>
+    <nav class="bg-[#1f2937] text-white p-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-2">
+                <img src="../assets/img/logo_sem_fundo.webp" alt="Logo" class="h-20 md:h-24" onerror="this.src='../logo/logo_sem_fundo_original.png'">
+            </a>
+        </div>
+    </nav>
 
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Monte seu PC <span class="primary-green">por Desempenho</span></h1>
+            <p class="text-gray-500">Selecione o jogo que você quer jogar e defina sua meta de FPS.</p>
+        </div>
 
+        <div id="games-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
+            </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+            <div class="flex flex-col md:flex-row gap-8 items-end">
+                
+                <div class="w-full md:w-1/3">
+                    <label class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide">Resolução</label>
+                    <select id="resolucao" class="w-full p-4 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary outline-none font-semibold transition-all">
+                        <option value="1080p">1080p (Full HD)</option>
+                        <option value="1440p">1440p (Quad HD)</option>
+                        <option value="4K">2160p (4K Ultra HD)</option>
+                    </select>
+                </div>
+
+                <div class="w-full md:w-1/3">
+                    <label class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide">FPS Alvo</label>
+                    <div class="relative">
+                        <input type="number" id="fps-alvo" placeholder="Ex: 60, 144" 
+                               class="w-full p-4 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary outline-none font-semibold transition-all">
+                        <span class="absolute right-4 top-4 text-gray-400 font-bold uppercase text-xs">FPS</span>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/3">
+                    <button id="btn-gerar" class="w-full bg-primary hover:bg-primaryHover text-white font-extrabold py-4 rounded-xl shadow-lg transition-all flex justify-center items-center gap-2 text-lg active:scale-95">
+                        <span>Gerar Build</span>
+                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="../assets/js/autobuild.js"></script>
 </body>
 </html>
