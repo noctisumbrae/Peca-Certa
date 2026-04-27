@@ -63,7 +63,7 @@ Para quem não quer escolher peça por peça, o **Auto Build Gamer** faz isso au
 
 ## Como Usar
 
-O projeto é uma aplicação estática. Basta clonar o repositório e abrir o `index.html` em qualquer servidor local, ou acessar diretamente pelo GitHub Pages.
+O projeto é uma aplicação estática. Basta clonar o repositório e abrir o `index.html` em qualquer servidor local, ou acessar diretamente pelo [GitHub Pages](https://noctisumbrae.github.io/Peca-Certa/).
 
 ```bash
 git clone https://github.com/seu-usuario/peca-certa.git
