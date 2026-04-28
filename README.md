@@ -102,3 +102,11 @@ Projeto desenvolvido para a disciplina de **Laboratório de Engenharia de Softwa
 Distribuído sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 As especificações técnicas dos componentes são derivadas do projeto [buildcores/buildcores-open-db](https://github.com/buildcores/buildcores-open-db), licenciado abertamente pela comunidade BuildCores.
+
+
+## 👥 Equipe
+
+- André Rego Pelosi
+- Camila Gonçalves Costa
+- Henrique Oliveira Fiori
+- Lucas Vinicius dos Santos
