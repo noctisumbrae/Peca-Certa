@@ -95,6 +95,12 @@ As melhorias abaixo estão planejadas para versões futuras do projeto:
 
 Projeto desenvolvido para a disciplina de **Laboratório de Engenharia de Software** — FATEC Presidente Prudente, 5º termo (2026).
 
+## 👥 Equipe
+
+- André Rego Pelosi
+- Camila Gonçalves Costa
+- Henrique Oliveira Fiori
+- Lucas Vinicius dos Santos
 ---
 
 ## Licença
@@ -104,9 +110,4 @@ Distribuído sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais det
 As especificações técnicas dos componentes são derivadas do projeto [buildcores/buildcores-open-db](https://github.com/buildcores/buildcores-open-db), licenciado abertamente pela comunidade BuildCores.
 
 
-## 👥 Equipe
 
-- André Rego Pelosi
-- Camila Gonçalves Costa
-- Henrique Oliveira Fiori
-- Lucas Vinicius dos Santos
