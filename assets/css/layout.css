@@ -53,7 +53,7 @@
     position: relative;
     z-index: 10;
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-    max-width: 500px;
+    max-width: 31.25rem; /* ~500px */
 }
 
 .page-index .split-wrapper:hover .side {
@@ -88,7 +88,7 @@
 .page-index .btn-custom {
     background-color: #22C345;
     color: #ffffff;
-    border: 2px solid #22C345;
+    border: 0.125rem solid #22C345; /* 2px */
     transition: all 0.4s ease;
     box-shadow: 0 4px 15px -3px rgba(34, 195, 69, 0.3);
 }
@@ -112,7 +112,7 @@
 }
 
 .page-index .logo-container img {
-    height: clamp(80px, 12vh + 2vw, 180px);
+    height: clamp(5rem, 12vh + 2vw, 15rem); /* Ajustado para rem para escalar com a TV */
     width: auto;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.08));
     transition: height 0.4s ease, top 0.4s ease;
@@ -123,23 +123,23 @@
 }
 
 .pc-table th {
-    border-bottom: 2px solid #e5e7eb;
-    padding: 12px 16px;
+    border-bottom: 0.125rem solid #e5e7eb; /* 2px */
+    padding: 0.75rem 1rem; /* 12px 16px */
     font-weight: 600;
     color: #4b5563;
 }
 
 .pc-table td {
     border-bottom: 1px solid #e5e7eb;
-    padding: 12px 16px;
+    padding: 0.75rem 1rem; /* 12px 16px */
     vertical-align: middle;
 }
 
 .btn-add {
     background-color: #22C345;
     color: white;
-    padding: 6px 16px;
-    border-radius: 6px;
+    padding: 0.375rem 1rem; /* 6px 16px */
+    border-radius: 0.375rem; /* 6px */
     font-weight: 600;
     transition: background 0.2s;
 }
@@ -151,12 +151,12 @@
 .btn-choose {
     background-color: #22C345;
     color: white;
-    padding: 8px 16px;
-    border-radius: 6px;
+    padding: 0.5rem 1rem; /* 8px 16px */
+    border-radius: 0.375rem; /* 6px */
     font-weight: 600;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem; /* 8px */
     transition: background 0.2s;
 }
 
@@ -172,19 +172,19 @@
 .game-card {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    outline: 3px solid transparent;
-    outline-offset: 2px;
+    outline: 0.1875rem solid transparent; /* 3px */
+    outline-offset: 0.125rem; /* 2px */
 }
 
 .game-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-0.5rem); /* -8px */
     outline-color: #22C345;
 }
 
 .game-card.selected {
     transform: scale(1.02);
     outline-color: #22C345;
-    outline-width: 4px;
+    outline-width: 0.25rem; /* 4px */
     z-index: 10;
     box-shadow: 0 20px 25px -5px rgba(34, 195, 69, 0.4);
 }
@@ -219,9 +219,9 @@
     }
 
     .page-index .logo-container img {
-        height: 55px;
+        height: 3.4375rem; /* 55px */
         width: auto;
-        max-width: 180px;
+        max-width: 11.25rem; /* 180px */
     }
 
     .page-index .side {
@@ -239,7 +239,7 @@
     }
 
     .game-card:hover {
-        transform: translateY(-4px);
+        transform: translateY(-0.25rem);
     }
 
     .pc-table, .pc-table tbody, .pc-table tr, .pc-table td, .pc-table tfoot {
@@ -256,16 +256,16 @@
         flex-wrap: wrap;
         align-items: center;
         border-bottom: 1px solid #e5e7eb;
-        padding: 12px 0;
+        padding: 0.75rem 0;
     }
 
     .pc-table td {
         border: none;
-        padding: 4px 8px;
+        padding: 0.25rem 0.5rem;
     }
 
     #overview-tbody tr {
-    padding: 16px 8px;
+    padding: 1rem 0.5rem;
     }
     #overview-tbody td:nth-child(1) {
     width: 100%;
@@ -273,11 +273,11 @@
     color: #6b7280;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    padding-bottom: 4px;
+    padding-bottom: 0.25rem;
     }
     #overview-tbody td:nth-child(2) {
     width: 100%;
-    padding-bottom: 12px;
+    padding-bottom: 0.75rem;
     }
     #overview-tbody td:nth-child(3) {
     width: 50%;
@@ -293,7 +293,7 @@
     #overview-tbody td[colspan="3"] {
     width: 100%;
     text-align: left;
-    padding-top: 8px;
+    padding-top: 0.5rem;
     }
     #overview-tbody td[colspan="3"] button {
     width: 100%;
@@ -303,13 +303,13 @@
     .pc-table tfoot tr {
         flex-direction: column;
         background-color: #f9fafb;
-        padding: 20px 10px;
+        padding: 1.25rem 0.625rem;
         border-bottom: none;
     }
     .pc-table tfoot td {
         text-align: center !important;
         width: 100% !important;
-        padding: 4px 0;
+        padding: 0.25rem 0;
     }
     .pc-table tfoot td:nth-child(1) {
         font-size: 0.875rem;
@@ -319,7 +319,7 @@
     }
 
     #selection-tbody tr {
-    padding: 16px 8px;
+    padding: 1rem 0.5rem;
     }
     #selection-tbody td:nth-child(1) {
     width: 25%;
@@ -328,22 +328,22 @@
     }
     #selection-tbody td:nth-child(2) {
     width: 75%;
-    padding-left: 12px;
+    padding-left: 0.75rem;
     }
     #selection-tbody td:nth-child(3) {
     width: 50%;
     text-align: left !important;
-    padding-top: 16px;
+    padding-top: 1rem;
     font-size: 1.125rem;
     }
     #selection-tbody td:nth-child(4) {
     width: 50%;
     text-align: right !important;
-    padding-top: 16px;
+    padding-top: 1rem;
     }
     #selection-tbody td:nth-child(4) button {
     width: auto;
-    padding: 8px 24px;
+    padding: 0.5rem 1.5rem;
     }
 }
 
@@ -354,7 +354,7 @@
     }
 
     .page-index .logo-container img {
-        height: 45px;
+        height: 2.8125rem; /* 45px */
     }
 
     .page-index .side {
@@ -367,5 +367,21 @@
 
     .page-index .side-content {
         transform: scale(0.9);
+    }
+}
+
+@media (min-width: 1920px) {
+    html {
+        font-size: 1.0vw;
+    }
+    
+    .page-index .logo-container img {
+        max-width: 25vw;
+    }
+}
+
+@media (min-width: 2560px) {
+    html {
+        font-size: 1.1vw;
     }
 }
